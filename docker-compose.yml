@@ -24,7 +24,7 @@ services:
     container_name: web-mysql-container
     restart: always
     ports:
-      - 3306:3306
+      - 9099:3306
     environment:
       - MYSQL_ROOT_PASSWORD:docker
       - MYSQL_DATABASE:docker

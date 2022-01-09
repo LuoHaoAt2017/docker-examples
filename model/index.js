@@ -7,6 +7,8 @@ export const db = {
   username: 'root',
   password: 'LuoHao-123',
   dialect: 'mysql',
+  // host: 'web-mysql-container',
+  // port: 9099,
   host: 'localhost',
   port: 3306,
 }

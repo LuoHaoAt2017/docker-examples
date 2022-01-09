@@ -1,6 +1,5 @@
 import Vue from "vue";
 import { Router } from "express";
-import passport from "passport";
 import { createRenderer } from "vue-server-renderer";
 import UserController from "../controller/user";
 import RoleController from "../controller/role";
@@ -47,48 +46,12 @@ const render = createRenderer({
     `,
 });
 
-function checkLogin(req, res, next) {
-  if (req.session && req.session.isAuthenticated) {
-    next();
-  } else {
-    res.status(401).redirect("/login");
-  }
-}
-
 // =================== 注册登录 ======================
 
-router.get("/", checkLogin, function (req, res) {
-  res.status(200).send(`
-    <html>
-      <head>
-      </head>
-      <body>
-        <div>欢迎来到三体世界</div>
-      </body>
-    </html>
-  `);
-});
-
-router.get("/login", function (req, res) {
+router.get("/", function (req, res) {
   const app = new Vue({
     template: `
-      <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
-        <div class="form-group">
-          <label for="username">用户名</label>
-          <input type="text" class="form-control" name="username" id="username">
-        </div>
-        <div class="form-group">
-          <label for="password">密码</label>
-          <input type="password" class="form-control" name="password" id="password">
-        </div>
-        <div class="form-group border-bottom">
-          <div class="btn-group" role="group" style="width:100%;">
-            <button type="submit" class="btn btn-primary" role="button">确定登录</button>
-            <a href="/register" class="btn btn-success" role="button">前往注册</a>
-            <a href="/auth/github" class="btn btn-warning" role="button">GitHub授权</a>
-          </div>
-        </div>
-      </form>
+      <div>欢迎来到三体世界</div>
     `,
   });
 
@@ -100,76 +63,8 @@ router.get("/login", function (req, res) {
     res.status(200).send(html);
   });
 });
-
-router.get("/register", function (req, res) {
-  const app = new Vue({
-    template: `
-      <form action="/register" method="put" enctype="application/x-www-form-urlencoded">
-        <div class="form-group">
-          <label for="username">用户名</label>
-          <input type="text" class="form-control" name="username" id="username">
-        </div>
-        <div class="form-group">
-          <label for="password">密码</label>
-          <input type="password" class="form-control" name="password" id="password">
-        </div>
-        <div class="form-group">
-          <div class="btn-group" role="group" style="width:100%;">
-            <button type="submit" class="btn btn-primary">注册</button>
-            <a href="/login" class="btn btn-success" role="button">前往登录</a>
-          </div>
-        </div>
-      </form>
-    `,
-  });
-
-  render.renderToString(app, function (err, html) {
-    if (err) {
-      res.status(500).end("Internal Server Error");
-      return;
-    }
-    res.status(200).send(html);
-  });
-});
-
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    failureRedirect: "/login",
-    failureFlash: true,
-    failureMessage: "登录失败",
-  }),
-  function (req, res) {
-    if (req.session) {
-      req.session.isAuthenticated = true;
-    }
-    res.status(200).redirect(`/user/${req.user.id}`);
-  }
-);
-
-router.put("/register", UserController.createUser);
-
-router.get("/logout", checkLogin, function (req, res) {
-  req.session.isAuthenticated = false;
-  res.redirect("/login");
-});
-
-router.get("/auth/github", passport.authenticate("github"));
-
-router.get(
-  "/auth/github/callback",
-  passport.authenticate("github", { failureRedirect: "/login" }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    if (req.session) {
-      req.session.isAuthenticated = true;
-    }
-    res.redirect("/");
-  }
-);
 
 // =================== 用户 ======================
-router.all("/user", checkLogin);
 
 router.delete("/user", UserController.deleteUser);
 
@@ -179,9 +74,9 @@ router.get("/users", UserController.getAllUsers);
 
 router.get("/user/:userId", UserController.getUserById);
 
-router.get("/getUserWithRole", checkLogin, UserController.getUserWithRole);
+router.get("/getUserWithRole", UserController.getUserWithRole);
 
-router.post("/setUserRole", checkLogin, UserController.setUserRole);
+router.post("/setUserRole", UserController.setUserRole);
 
 // =================== 角色 ======================
 

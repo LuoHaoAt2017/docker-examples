@@ -1,0 +1,56 @@
+{
+  "name": "docker-examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node ./index.js",
+    "commit": "git add . && git-cz",
+    "publish": "git pull && npm version patch && git push"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuoHaoAt2017/docker-examples.git"
+  },
+  "author": "LuoHao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuoHaoAt2017/docker-examples/issues"
+  },
+  "homepage": "https://github.com/LuoHaoAt2017/docker-examples#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "body-parser": "^1.19.1",
+    "cookie-parser": "^1.4.6",
+    "casbin": "^5.11.5",
+    "casbin-sequelize-adapter": "^2.3.1",
+    "connect-flash": "^0.1.1",
+    "express": "^4.17.2",
+    "express-session": "^1.17.2",
+    "moment": "^2.29.1",
+    "mysql2": "^2.3.3",
+    "passport": "^0.5.2",
+    "passport-github": "^1.1.0",
+    "passport-local": "^1.0.0",
+    "passport-oauth": "^1.0.0",
+    "sequelize": "^5.22.4",
+    "serve-favicon": "^2.5.0",
+    "vue": "^2.6.14",
+    "vue-server-renderer": "^2.6.14"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.5",
+    "@babel/node": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "babel-jest": "^27.4.5",
+    "commitizen": "^4.2.4",
+    "commitlint": "^13.1.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^7.0.1",
+    "jest": "^27.4.4",
+    "nodemon": "^2.0.15"
+  }
+}

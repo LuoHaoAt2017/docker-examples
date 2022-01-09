@@ -4,37 +4,23 @@ import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import favicon from "serve-favicon";
-// import router from "./routes/index";
-// import connect from "./model/index";
+import router from "./routes/index";
+import connect from "./model/index";
 
 (async function server() {
-  // 链接数据库
-  // await connect();
   const app = express();
   // 虚拟路径前缀
+  app.use('/static', express.static(path.join(__dirname, "assets")));
   app.use(favicon(path.join(__dirname, "assets", "favicon.ico")));
   // 解析 form 参数
   app.use(bodyParser.urlencoded({ extended: false }));
   // 解析 json 参数
   app.use(bodyParser.json());
   app.use(cookieParser());
+  // 链接数据库
+  await connect();
   // 注册路由
-  // app.use(router);
-  app.get("/", function (req, res) {
-    res.status(200).send(`
-      <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>RBAC</title>
-        </head>
-        <body>
-          hello world
-        </body>
-      </html>
-    `);
-  });
+  app.use(router);
   // 创建服务
   const server1 = http.createServer(app);
   const server2 = http.createServer(app);

@@ -4,11 +4,11 @@ import RoleFactory from './role';
 
 export const db = {
   database: 'docker', // 数据库名称
-  username: 'root',
+  username: 'tomcat',
   password: 'my-secret-pw',
   dialect: 'mysql',
   host: 'web-mysql-container',
-  port: 9099,
+  port: 8089,
   // host: 'localhost',
   // port: 3306,
 }
@@ -17,8 +17,8 @@ const models = {};
 
 const sequelize = new Sequelize(db.database, db.username, db.password, {
   host: db.host,
-  dialect: db.dialect,
   port: db.port,
+  dialect: db.dialect,
   define: {
     freezeTableName: true, // 停止 Sequelize 执行自动复数化。 Sequelize 将推断表名称等于模型名称,而无需进行任何修改。
   }
@@ -45,7 +45,7 @@ async function connect() {
     // 测试连接
     await sequelize.authenticate();
     // 一次同步所有模型
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ force: true });
     console.log('Connection has been established successfully.');
   } catch (error) {
     console.error('Unable to connect to the database:', error);

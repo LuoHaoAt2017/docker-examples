@@ -5,12 +5,12 @@ import RoleFactory from './role';
 export const db = {
   database: 'docker', // 数据库名称
   username: 'root',
-  password: 'LuoHao-123',
+  password: 'my-secret-pw',
   dialect: 'mysql',
-  // host: 'web-mysql-container',
-  // port: 9099,
-  host: 'localhost',
-  port: 3306,
+  host: 'web-mysql-container',
+  port: 9099,
+  // host: 'localhost',
+  // port: 3306,
 }
 
 const models = {};

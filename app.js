@@ -5,7 +5,8 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import favicon from "serve-favicon";
 import router from "./routes/index";
-import connect from "./model/index";
+import sequelize from "./utils/mysql";
+import associate from './model/index';
 
 (async function server() {
   const app = express();
@@ -17,10 +18,18 @@ import connect from "./model/index";
   // 解析 json 参数
   app.use(bodyParser.json());
   app.use(cookieParser());
-  // 链接数据库
-  await connect();
   // 注册路由
   app.use(router);
+  try {
+    associate();
+    // 测试连接
+    await sequelize.authenticate();
+    // 一次同步所有模型
+    await sequelize.sync({ force: true });
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
   // 创建服务
   const server1 = http.createServer(app);
   const server2 = http.createServer(app);
